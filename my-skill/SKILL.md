@@ -1,6 +1,6 @@
 ---
 name: disney-presentation-transformation
-description: Transform basic or minimally formatted PowerPoint presentations into Disney Advertising-aligned presentations using the approved DA_Generic_Template_2025-3.pptx template. Use when a user supplies a source deck and asks to apply the Disney Advertising presentation design system.
+description: Transform basic or minimally formatted PowerPoint presentations into Disney Advertising-aligned presentations using the approved DA_Generic_Template_2025-3.pptx template and the images in /assets/media as needed. Use when a user supplies a source deck and asks to apply the Disney Advertising presentation design system.
 ---
 
 # Disney Advertising Presentation Transformation
