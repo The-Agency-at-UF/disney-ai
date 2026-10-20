@@ -1,6 +1,6 @@
 ---
 name: disney-presentation-transformation
-description: Transform basic or minimally formatted PowerPoint presentations into Disney Advertising-aligned presentations using the approved DA_Generic_Template_2025-3.pptx template and the images in /assets/media as needed. Use when a user supplies a source deck and asks to apply the Disney Advertising presentation design system.
+description: Transform basic or minimally formatted PowerPoint presentations into Disney Advertising-aligned presentations using the approved DA_Generic_Template_2025-3.pptx template. Use when a user supplies a source deck and asks to apply the Disney Advertising presentation design system.
 ---
 
 # Disney Advertising Presentation Transformation
@@ -9,16 +9,24 @@ description: Transform basic or minimally formatted PowerPoint presentations int
 Transform a user-provided PowerPoint presentation containing basic or minimally formatted content into a polished, editable `.pptx` aligned as closely as practical with the approved Disney Advertising presentation template. This is an AI-assisted prototype workflow, not a guarantee of pixel-perfect reproduction. Every output requires human review before distribution.
 
 ## Required resources
-- **Approved design source:** `assets/DA_Generic_Template_2025-3.pptx` (relative to this SKILL.md).
+- **Approved design source:** the validated original `DA_Generic_Template_2025-3.pptx`, or the bundled `assets/Disney_Template_Slim.pptx` fallback (relative to this SKILL.md). See "Template source".
 - **Source presentation:** A `.pptx` provided by the user for transformation.
 - **Optional:** Additional guidance in `references/`, example input/output decks in `assets/`, and validated utilities in `scripts/` when present.
 
 Do not assume that optional directories contain specific files. Do not infer brand colors, fonts, or layout specifications from the project brief or statement of work; derive them from the actual approved template and any supplied brand guidance.
 
+## Template source
+The full original template (`originals/DA_Generic_Template_2025-3.pptx`, about 560 MB) lives in the private `disney-ai` repo under Git LFS. A slim copy is bundled at `assets/Disney_Template_Slim.pptx` (chart workbooks removed, some slide-level hero images still grey).
+
+1. Try the original: clone or pull the repo, then run `git lfs pull` for that file. Use only a read-only credential supplied at runtime; never write tokens into the repo or the skill.
+2. Validate it before use: the file must be larger than 1 KB, must not start with `version https://git-lfs`, must open in python-pptx, and must have 144 slides.
+3. If validation fails or the fetch is blocked, stop using the original. Use `assets/Disney_Template_Slim.pptx` and tell the user that backgrounds are reduced quality and the output needs extra visual review.
+4. Never silently build from a pointer file or an unvalidated download.
+
 ## Workflow
 
 ### 1. Validate inputs
-1. Locate and open `assets/DA_Generic_Template_2025-3.pptx`.
+1. Locate and open the validated template from "Template source".
 2. Locate and open the user-provided source deck.
 3. Verify that both are readable and that a presentation editing/export capability is available.
 4. If the approved template or source deck is missing, request the missing file rather than inventing its contents or visual standards.
