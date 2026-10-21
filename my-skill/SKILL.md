@@ -11,7 +11,8 @@ Transform a user-provided PowerPoint presentation containing basic or minimally 
 ## Required resources
 - **Approved design source:** the validated original `DA_Generic_Template_2025-3.pptx`, or the bundled `assets/Disney_Template_Slim.pptx` fallback (relative to this SKILL.md). See "Template source".
 - **Source presentation:** A `.pptx` provided by the user for transformation.
-- **Optional:** Additional guidance in `references/`, example input/output decks in `assets/`, and validated utilities in `scripts/` when present.
+- **Slide map:** `references/template-map.md` lists which template slides to clone for each slide type, the approved palette, and which sections are off limits. Read it before selecting layouts, and re-verify the slide numbers against the template in use.
+- **Optional:** Example input/output decks in `assets/` and validated utilities in `scripts/` when present.
 
 Do not assume that optional directories contain specific files. Do not infer brand colors, fonts, or layout specifications from the project brief or statement of work; derive them from the actual approved template and any supplied brand guidance.
 
@@ -33,7 +34,9 @@ The full original template (`originals/DA_Generic_Template_2025-3.pptx`, about 5
 5. If the source contains unclear, contradictory, or incomplete content that materially affects interpretation, request clarification or mark it for human review.
 
 ### 2. Analyze the approved template
-Inspect slide dimensions, masters/layouts, theme colors, fonts, title and body hierarchies, spacing, alignment, image treatments, chart/table styles, headers/footers, section dividers, callouts, and recurring compositions. Build an internal layout inventory that maps each supported slide type to an existing approved layout or representative template slide. Consult any relevant files in `references/` if present. Prefer the actual template over generic presentation-design conventions.
+Inspect slide dimensions, masters/layouts, theme colors, fonts, title and body hierarchies, spacing, alignment, image treatments, chart/table styles, headers/footers, section dividers, callouts, and recurring compositions. Build an internal layout inventory that maps each supported slide type to an existing approved layout or representative template slide, starting from `references/template-map.md`. Prefer the actual template over generic presentation-design conventions.
+
+**Brand scope (applies to every output).** The client is Disney Advertising, so the deck is built from the Disney Advertising section of the template (blue). Do not use the ESPN (red) or Hulu (green) sections, their `ESPN Cover *` layouts, or their colors, even when the source deck is about an ESPN, Hulu, or other network property. Use them only if the user explicitly asks for that network's look. Do not clone the template's style-guide slides (3-17) into the output.
 
 ### 3. Interpret source content
 For each source slide, identify:
@@ -46,8 +49,17 @@ Preserve factual claims, figures, units, names, dates, quotations, source attrib
 
 ### 4. Select layouts and transform
 1. Match each source slide to the most appropriate approved layout based on content and communicative purpose.
-2. Prefer reusing approved layouts, slide masters, placeholders, and editable native PowerPoint elements over recreating the appearance from scratch.
-3. Apply the template's typography, colors, spacing, alignment, visual hierarchy, and graphical conventions.
+2. **Clone, don't imitate.** Build each output slide by duplicating the matching template slide (with its layout, placeholders, background, glow images, and footer) and filling it. Do not assemble a look from blank slides, plain text boxes, or the layout alone, and do not change layouts, fonts, or colors once a template slide is cloned. The result should be recognizable as the template at a glance. When content does not fit a template slide, choose a different template slide or split the content; do not freelance a new design.
+3. Apply the template's typography, colors, spacing, alignment, visual hierarchy, and graphical conventions. Keep the "PROPERTY OF DISNEY ADVERTISING SALES, LLC. UNAUTHORIZED DISTRIBUTION PROHIBITED." footer on every slide that has it in the template.
+
+Slide-type rules (details and slide numbers in `references/template-map.md`):
+
+- **Color:** Disney Advertising blues from the template palette (Light Blue `#0BB5DC`, Steel Blue `#004069`, Dark Blue `#021D30`, white). No red or green as deck colors. The only red/green/aqua allowed is the small glow flares that ship with the template's image frames. Leave colors inherited from the layout; set explicit colors only for charts, and only from the palette.
+- **Title slide:** use the hero slide (slide 1, dark Disney "D" art with logo and light-blue title/date) or the montage cover (slide 19, five-image row with curved wedge) when at least five usable images are available. Put the deck title and date in the template's title/date positions. No other title treatment.
+- **Section dividers / transitions:** use the divider slides (21, 22, or 23): full-bleed image, curved wedge, large light-blue title bottom-left, white subtitle beneath it. Use a source image for the background when one fits; otherwise use an approved background (template slides 131-142) rather than leaving a grey placeholder, and never reuse the template's sample key art. Insert a divider before each major section of the source deck.
+- **Images:** every image goes into a template picture placeholder so it gets the rounded, glowing frame, and the template's Lens_* flare pictures stay with it. Never paste a bare rectangular picture. Use the multi-frame slides (48/49, 37-40, 69) when there are two or more images; crop to the frame, don't stretch. Delete any frame that has no image, along with its flare picture, or pick a slide with fewer frames. Never leave grey placeholder boxes.
+- **Data and charts:** present statistics, percentages, and chart data like template slides 61/62: a rounded glass card with a heading, short body text, a large light-blue `XX%` figure, and a native editable chart (donut or bar) styled from the palette. Use the big-number slides (46/47, 53-60, 63) for stat-led slides, and 126/127 for bar charts. Charts are rebuilt as native charts with the source's exact categories and values; never a screenshot. Group related figures on one data card instead of spreading them as loose bullets.
+- **Text-heavy slides:** use the text-only bullet slides, not a blank slide with a body box, and keep the source's bullet hierarchy. Move key figures from bullets onto a data slide only when the figure and its context stay intact.
 4. Fit content without clipping, overlap, or unreadably small text. When necessary, split content across additional slides or recommend a manual redesign rather than deleting information.
 5. Preserve charts and tables as editable elements when practical, including their data and labels. Do not change values or chart interpretation.
 6. Use only approved or user-supplied images and assets when available. Do not add unapproved Disney artwork, logos, or other branded material.
@@ -59,7 +71,7 @@ Create a new editable `.pptx` file; never overwrite the approved template or ori
 ### 6. Quality control
 Inspect the generated deck slide by slide, preferably by rendering slides for visual review. Verify:
 - **Content fidelity:** No unintended omissions, fabricated content, altered figures, or meaning changes.
-- **Template alignment:** Correct use of available layouts, fonts, colors, dimensions, and visual conventions.
+- **Template alignment:** Correct use of available layouts, fonts, colors, dimensions, and visual conventions. Specifically check that: every slide was cloned from the Disney Advertising section; no ESPN/Hulu layouts or red/green deck colors appear; the title slide is the hero or montage cover; dividers use the wedge divider slides; every image is in a glowing frame; data uses the card-with-chart treatment; and slide 1 of the output does not carry template guide text such as "Template v25.01".
 - **Readability:** Clear hierarchy, legible text, and appropriate density.
 - **Layout integrity:** No overflow, clipping, overlaps, off-slide elements, or misaligned objects.
 - **Data integrity:** Charts, tables, labels, units, and citations remain accurate.
@@ -80,6 +92,8 @@ State that the result is **Disney-aligned for human review**, not officially app
 ## Guardrails
 - The approved PowerPoint template is the primary visual authority.
 - Do not substitute generic Disney-themed styling for the supplied Disney Advertising template.
+- Do not adopt a source property's own branding (e.g., ESPN red) in place of Disney Advertising blue.
+- A passable approximation is not enough: follow the template's slides strictly, and when a slide would need to deviate from the template, flag it for review instead.
 - Preserve content meaning and organizational intent.
 - Do not silently remove content to make a slide fit.
 - Do not fabricate sources or data.
