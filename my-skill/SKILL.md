@@ -6,18 +6,17 @@ description: Transform basic or minimally formatted PowerPoint presentations int
 # Disney Advertising Presentation Transformation
 
 ## Purpose
-Transform a user-provided PowerPoint presentation containing basic or minimally formatted content into a polished, editable `.pptx` aligned as closely as practical with the approved Disney Advertising presentation template. This is an AI-assisted prototype workflow, not a guarantee of pixel-perfect reproduction. Every output requires human review before distribution.
+Transform a user-provided PowerPoint presentation containing basic or minimally formatted content into a polished, editable `.pptx` aligned as closely as practical with the approved Disney Advertising presentation template. This is an AI-assisted prototype workflow, not a guarantee of pixel-perfect reproduction. Every output will require human review before distribution.
 
 ## Required resources
 - **Approved design source:** the validated original `DA_Generic_Template_2025-3.pptx`, or the bundled `assets/Disney_Template_Slim.pptx` fallback (relative to this SKILL.md). See "Template source".
 - **Source presentation:** A `.pptx` provided by the user for transformation.
 - **Slide map:** `references/template-map.md` lists which template slides to clone for each slide type, the approved palette, and which sections are off limits. Read it before selecting layouts, and re-verify the slide numbers against the template in use.
-- **Optional:** Example input/output decks in `assets/` and validated utilities in `scripts/` when present.
 
 Do not assume that optional directories contain specific files. Do not infer brand colors, fonts, or layout specifications from the project brief or statement of work; derive them from the actual approved template and any supplied brand guidance.
 
 ## Template source
-The full original template (`originals/DA_Generic_Template_2025-3.pptx`, about 560 MB) lives in the private `disney-ai` repo under Git LFS. A slim copy is bundled at `assets/Disney_Template_Slim.pptx` (chart workbooks removed, some slide-level hero images still grey).
+The full original template (`originals/DA_Generic_Template_2025-3.pptx`, about 560 MB) lives in the public `disney-ai` repo (at "https://github.com/The-Agency-at-UF/disney-ai") under Git LFS. A slim copy is bundled at `assets/Disney_Template_Slim.pptx` (chart workbooks removed, some slide-level hero images still grey).
 
 1. Try the original: clone or pull the repo, then run `git lfs pull` for that file. Use only a read-only credential supplied at runtime; never write tokens into the repo or the skill.
 2. Validate it before use: the file must be larger than 1 KB, must not start with `version https://git-lfs`, must open in python-pptx, and must have 144 slides.
@@ -45,7 +44,7 @@ For each source slide, identify:
 - Data, citations, labels, footnotes, and relevant speaker notes.
 - Content or relationships that must remain intact.
 
-Preserve factual claims, figures, units, names, dates, quotations, source attributions, and intended meaning. Do not invent facts, statistics, imagery, or brand rules. Do not silently omit source content. Minor copy edits for clarity are permitted only when they do not change meaning; flag substantive changes for approval.
+Preserve factual claims, figures, units, names, dates, quotations, source attributions, and intended meaning. DO NOT invent facts, statistics, imagery, or brand rules. Do not silently omit source content. Minor copy edits for clarity are permitted only when they do not change meaning; flag substantive changes for approval. 
 
 ### 4. Select layouts and transform
 1. Match each source slide to the most appropriate approved layout based on content and communicative purpose.
@@ -59,20 +58,20 @@ Slide-type rules (details and slide numbers in `references/template-map.md`):
 - **Section dividers / transitions:** use the divider slides (21, 22, or 23): full-bleed image, curved wedge, large light-blue title bottom-left, white subtitle beneath it. Use a source image for the background when one fits; otherwise use an approved background (template slides 131-142) rather than leaving a grey placeholder, and never reuse the template's sample key art. Insert a divider before each major section of the source deck.
 - **Images:** every image goes into a template picture placeholder so it gets the rounded, glowing frame, and the template's Lens_* flare pictures stay with it. Never paste a bare rectangular picture. Use the multi-frame slides (48/49, 37-40, 69) when there are two or more images; crop to the frame, don't stretch. Delete any frame that has no image, along with its flare picture, or pick a slide with fewer frames. Never leave grey placeholder boxes.
 - **Data and charts:** present statistics, percentages, and chart data like template slides 61/62: a rounded glass card with a heading, short body text, a large light-blue `XX%` figure, and a native editable chart (donut or bar) styled from the palette. Use the big-number slides (46/47, 53-60, 63) for stat-led slides, and 126/127 for bar charts. Charts are rebuilt as native charts with the source's exact categories and values; never a screenshot. Group related figures on one data card instead of spreading them as loose bullets.
-- **Text-heavy slides:** use the text-only bullet slides, not a blank slide with a body box, and keep the source's bullet hierarchy. Move key figures from bullets onto a data slide only when the figure and its context stay intact.
+- **Text-heavy slides:** use the text-only bullet slides, not a blank slide with a body box, and keep the source's bullet hierarchy. Move key figures from bullets onto a data slide only when the figure and its context stay intact. For every slide with text, ensure that the correct font size is used so that text is legible and readable, as well as ensuring the text box is sized properly to avoid clashing with the background (making it illegible).
 4. Fit content without clipping, overlap, or unreadably small text. When necessary, split content across additional slides or recommend a manual redesign rather than deleting information.
 5. Preserve charts and tables as editable elements when practical, including their data and labels. Do not change values or chart interpretation.
 6. Use only approved or user-supplied images and assets when available. Do not add unapproved Disney artwork, logos, or other branded material.
 7. Keep slide dimensions consistent with the approved template unless the user explicitly requests otherwise.
 
 ### 5. Generate the output
-Create a new editable `.pptx` file; never overwrite the approved template or original source deck. Name the output `<source-name>_Disney_Transformed.pptx` unless the user specifies another name. Use presentation tooling available in the environment. If a script exists in `scripts/`, inspect and validate it before use; do not assume it is available or functional. If editable PowerPoint generation is unavailable, disclose the limitation rather than claiming to have created a deck.
+Create a new editable `.pptx` file; never overwrite the approved template or original source deck. Name the output `<source-name>_T.pptx` unless the user specifies another name. Use presentation tooling available in the environment. If a script exists in `scripts/`, inspect and validate it before use; do not assume it is available or functional. If editable PowerPoint generation is unavailable, disclose the limitation rather than claiming to have created a deck.
 
 ### 6. Quality control
 Inspect the generated deck slide by slide, preferably by rendering slides for visual review. Verify:
 - **Content fidelity:** No unintended omissions, fabricated content, altered figures, or meaning changes.
-- **Template alignment:** Correct use of available layouts, fonts, colors, dimensions, and visual conventions. Specifically check that: every slide was cloned from the Disney Advertising section; no ESPN/Hulu layouts or red/green deck colors appear; the title slide is the hero or montage cover; dividers use the wedge divider slides; every image is in a glowing frame; data uses the card-with-chart treatment; and slide 1 of the output does not carry template guide text such as "Template v25.01".
-- **Readability:** Clear hierarchy, legible text, and appropriate density.
+- **Template alignment:** Correct use of available layouts, fonts, colors, dimensions, and visual conventions. Specifically check that: every slide was cloned from the Disney Advertising section; no ESPN/Hulu layouts or red/green deck colors appear unless asked for; the title slide is the hero or montage cover; dividers use the wedge divider slides; every image is in a glowing frame; data uses the card-with-chart treatment; and slide 1 of the output does not carry template guide text such as "Template v25.01".
+- **Readability:** Clear hierarchy, legible text (make sure the text isnt too small or too large), and appropriate density.
 - **Layout integrity:** No overflow, clipping, overlaps, off-slide elements, or misaligned objects.
 - **Data integrity:** Charts, tables, labels, units, and citations remain accurate.
 - **Consistency:** Similar content uses consistent formatting across slides.
