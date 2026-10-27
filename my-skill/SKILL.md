@@ -10,10 +10,23 @@ Transform a user-provided PowerPoint presentation containing basic or minimally 
 
 ## Required resources
 - **Approved design source:** the validated original `DA_Generic_Template_2025-3.pptx`, or the bundled `assets/Disney_Template_Slim.pptx` fallback (relative to this SKILL.md). See "Template source".
-- **Source presentation:** A `.pptx` provided by the user for transformation.
+- **Source presentation:** A `.pptx` (preferred) or PDF provided by the user for transformation, meeting the "Minimum input standard".
 - **Slide map:** `references/template-map.md` lists which template slides to clone for each slide type, the approved palette, and which sections are off limits. Read it before selecting layouts, and re-verify the slide numbers against the template in use.
 
 Do not assume that optional directories contain specific files. Do not infer brand colors, fonts, or layout specifications from the project brief or statement of work; derive them from the actual approved template and any supplied brand guidance.
+
+## Minimum input standard
+This skill only works properly when the source deck meets the standard below. Before doing any other work, restate it to the user and ask them to confirm that their input meets it.
+
+1. **File type:** `.pptx` or PDF only. `.pptx` is strongly preferred, because it carries native text, charts, tables and images; a PDF loses structure and may need more manual rebuilding and review.
+2. **Editable text:** text must be real, editable text, not images of text (screenshots, scanned pages, flattened exports). Text that exists only inside an image cannot be reliably extracted, restyled or checked for fidelity.
+3. **Attached and open:** the file must be attached to the conversation as a file (not pasted as text, linked, or described) and must not be password protected or encrypted.
+
+Ask the user, for example: "Before I start, please confirm your deck meets the minimum standard: (1) it is a .pptx (preferred) or PDF, (2) all text is editable text rather than images of text, and (3) it is attached as a file and is not password protected. Does it meet all three?"
+
+- If the user confirms, continue to "Workflow".
+- If any point is not met or is uncertain, do not proceed. Tell the user which point fails and what to fix (for example, re-export from the original PowerPoint, remove the password, or attach the file).
+- If, after confirmation, the file turns out not to meet the standard (for example, a page is a flattened image of text, or the file cannot be opened), stop and tell the user rather than guessing at the content. Image-only text must not be transcribed from the picture without telling the user, and any such content must be flagged for human review.
 
 ## Template source
 The full original template (`originals/DA_Generic_Template_2025-3.pptx`, about 560 MB) lives in the public `disney-ai` repo (at "https://github.com/The-Agency-at-UF/disney-ai") under Git LFS. A slim copy is bundled at `assets/Disney_Template_Slim.pptx` (chart workbooks removed, some slide-level hero images still grey).
@@ -36,6 +49,7 @@ Delete a flare only when its frame is deleted. A sample-photo stub (for example 
 ## Workflow
 
 ### 1. Validate inputs
+0. Confirm with the user that the source deck meets the "Minimum input standard".
 1. Locate and open the validated template from "Template source".
 2. Locate and open the user-provided source deck.
 3. Verify that both are readable and that a presentation editing/export capability is available.
