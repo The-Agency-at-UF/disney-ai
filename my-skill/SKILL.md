@@ -1,6 +1,6 @@
 ---
 name: disney-presentation-transformation
-description: Transform basic or minimally formatted PowerPoint presentations into Disney Advertising-aligned presentations using the approved DA_Generic_Template_2025-3.pptx template. Use when a user supplies a source deck and asks to apply the Disney Advertising presentation design system.
+description: Transform basic or minimally formatted PowerPoint presentations into Disney Advertising-aligned presentations using the bundled approved Disney Advertising template (`assets/Disney_Template_Slim.pptx`). Use when a user supplies a source deck and asks to apply the Disney Advertising presentation design system.
 ---
 
 # Disney Advertising Presentation Transformation
@@ -9,25 +9,48 @@ description: Transform basic or minimally formatted PowerPoint presentations int
 Transform a user-provided PowerPoint presentation containing basic or minimally formatted content into a polished, editable `.pptx` aligned as closely as practical with the approved Disney Advertising presentation template. This is an AI-assisted prototype workflow, not a guarantee of pixel-perfect reproduction. Every output will require human review before distribution.
 
 ## Required resources
-- **Approved design source:** the validated original `DA_Generic_Template_2025-3.pptx`, or the bundled `assets/Disney_Template_Slim.pptx` fallback (relative to this SKILL.md). See "Template source".
-- **Source presentation:** A `.pptx` provided by the user for transformation.
+- **Approved design source:** the bundled `assets/Disney_Template_Slim.pptx` (relative to this SKILL.md). See "Template source".
+- **Source presentation:** A `.pptx` (preferred) or PDF provided by the user for transformation, meeting the "Minimum input standard".
 - **Slide map:** `references/template-map.md` lists which template slides to clone for each slide type, the approved palette, and which sections are off limits. Read it before selecting layouts, and re-verify the slide numbers against the template in use.
 
 Do not assume that optional directories contain specific files. Do not infer brand colors, fonts, or layout specifications from the project brief or statement of work; derive them from the actual approved template and any supplied brand guidance.
 
-## Template source
-The full original template (`originals/DA_Generic_Template_2025-3.pptx`, about 560 MB) lives in the public `disney-ai` repo (at "https://github.com/The-Agency-at-UF/disney-ai") under Git LFS. A slim copy is bundled at `assets/Disney_Template_Slim.pptx` (chart workbooks removed, some slide-level hero images still grey).
+## Minimum input standard
+This skill only works properly when the source deck meets the standard below. Before doing any other work, restate it to the user and ask them to confirm that their input meets it.
 
-1. Try the original: clone or pull the repo, then run `git lfs pull` for that file. Use only a read-only credential supplied at runtime; never write tokens into the repo or the skill.
-2. Validate it before use: the file must be larger than 1 KB, must not start with `version https://git-lfs`, must open in python-pptx, and must have 144 slides.
-3. If validation fails or the fetch is blocked, stop using the original. Use `assets/Disney_Template_Slim.pptx` and tell the user that backgrounds are reduced quality and the output needs extra visual review.
-4. Never silently build from a pointer file or an unvalidated download.
-5. The slim template's Lens_* flare pictures and the divider wedge pictures are grey stubs. When working from the slim copy, flag every slide where a flare or wedge had to be left out so a human can restore it from the original. Do not leave grey boxes in the output.
+1. **File type:** `.pptx` or PDF only. `.pptx` is strongly preferred, because it carries native text, charts, tables and images; a PDF loses structure and may need more manual rebuilding and review.
+2. **Editable text:** text must be real, editable text, not images of text (screenshots, scanned pages, flattened exports). Text that exists only inside an image cannot be reliably extracted, restyled or checked for fidelity.
+3. **Attached and open:** the file must be attached to the conversation as a file (not pasted as text, linked, or described) and must not be password protected or encrypted.
+
+Keep this check to a few lines, because busy users skip long warnings. Check what you can yourself (file type, opens without a password, text extracts as editable) and do not narrate those findings. Ask only about what you cannot verify, using a message like this (3 to 5 lines at most):
+
+> Quick check before I start: your deck must be a .pptx (or PDF) with real editable text, not screenshots of text, and not password protected. I can't see inside images, so any text baked into a picture will be flagged, not transcribed. Output is Disney-aligned for human review, not Disney-approved, and needs a visual check. Good to go?
+
+Do not add slide-by-slide summaries, descriptions of how charts or missing art will be handled, or other explanation here; that belongs in the final handoff.
+
+- If the user confirms, continue to "Workflow".
+- If any point is not met or is uncertain, do not proceed. Tell the user which point fails and what to fix (for example, re-export from the original PowerPoint, remove the password, or attach the file).
+- If, after confirmation, the file turns out not to meet the standard (for example, a page is a flattened image of text, or the file cannot be opened), stop and tell the user rather than guessing at the content. Image-only text must not be transcribed from the picture without telling the user, and any such content must be flagged for human review.
+
+## Template source
+Always build from the bundled `assets/Disney_Template_Slim.pptx` (chart workbooks removed, some slide-level hero images still grey). Do not try to fetch any other copy of the template. Tell the user that backgrounds may be of reduced quality and the output needs visual review.
+
+The slim copy contains grey stubs. They must be neutralized, never deleted and never left visible. Follow "Stub handling" below.
+
+### Stub handling
+In the slim template the Lens_* flares, the divider wedges (`New Wedge.png`, `New Wedge White.png`) and some sample photos are grey stubs: single-colour 1600x900 images (`placeholder_gray.png`). Detect them by comparing the SHA-1 of each picture's image blob to that file's, not by name alone. A stub must never be visible, and it must never be silently deleted, because a deleted wedge or flare cannot be put back in the right place. For every stub on a slide you keep:
+1. Replace its image with a fully transparent PNG of the same pixel size. Leave the picture shape itself (name, position, size, crop, z-order) untouched.
+2. If you move or resize the frame it belongs to, move the flare with it using the offsets in `references/template-map.md`.
+3. Set its alt text to `RESTORE FROM ORIGINAL TEMPLATE (slide N): <shape name>`, where N is the template slide it was cloned from.
+4. Add it to the restore table in the handoff (see "Deliver for human review").
+
+Delete a flare only when its frame is deleted. A sample-photo stub (for example the four card photos on slide 69) is replaced by the source image and never left behind. Restoring the art is then one step: select the invisible picture (Selection Pane, same name) and use Change Picture with the same-named picture from template slide N of the original template (`originals/DA_Generic_Template_2025-3.pptx` in the repo); its size and position are already correct.
 
 ## Workflow
 
 ### 1. Validate inputs
-1. Locate and open the validated template from "Template source".
+0. Confirm with the user that the source deck meets the "Minimum input standard".
+1. Locate and open the bundled template from "Template source".
 2. Locate and open the user-provided source deck.
 3. Verify that both are readable and that a presentation editing/export capability is available.
 4. If the approved template or source deck is missing, request the missing file rather than inventing its contents or visual standards.
@@ -45,26 +68,28 @@ For each source slide, identify:
 - Data, citations, labels, footnotes, and relevant speaker notes.
 - Content or relationships that must remain intact.
 
+**Keep each source slide whole.** Text, images, charts, screenshots and tables that appear together on one source slide must appear together on one output slide. The output has one slide per source slide, plus dividers if you add them (a source slide that is only a title and a picture is already a divider: use a divider template for it). Never separate a visual from the text it was presented with, never split a source slide because the template slide has too few frames, and never move content to another slide to make it fit. The only permitted split is a text-only slide whose text cannot fit at the minimum legible size even on the roomiest text layout, and it must be flagged. If no template slide fits a source slide, extend the closest one (see "Several images") or flag the slide for human design.
+
 Preserve factual claims, figures, units, names, dates, quotations, source attributions, and intended meaning. DO NOT invent facts, statistics, imagery, or brand rules. Do not silently omit source content. Minor copy edits for clarity are permitted only when they do not change meaning; flag substantive changes for approval.
 
 ### 4. Select layouts and transform
 1. Match each source slide to the most appropriate approved layout based on content and communicative purpose.
-2. **Clone, don't imitate.** Build each output slide by duplicating the matching template slide (with its layout, placeholders, background, glow images, and footer) and filling it. Do not assemble a look from blank slides, plain text boxes, or the layout alone, and do not change layouts, fonts, or colors once a template slide is cloned. The result should be recognizable as the template at a glance. When content does not fit a template slide, choose a different template slide or split the content; do not freelance a new design.
+2. **Clone, don't imitate.** Build each output slide by duplicating the matching template slide (with its layout, placeholders, background, glow images, and footer) and filling it. Do not assemble a look from blank slides, plain text boxes, or the layout alone, and do not change layouts, fonts, or colors once a template slide is cloned. The result should be recognizable as the template at a glance. When content does not fit a template slide, choose a different template slide or extend the closest one as described under "Several images"; never split a source slide's content across slides, and do not freelance a new design.
 3. Apply the template's typography, colors, spacing, alignment, visual hierarchy, and graphical conventions. Keep the "PROPERTY OF DISNEY ADVERTISING SALES, LLC. UNAUTHORIZED DISTRIBUTION PROHIBITED." footer on every slide that has it in the template.
 
 Slide-type rules (details and slide numbers in `references/template-map.md`):
 
 - **Color:** Disney Advertising blues from the template palette (Light Blue `#0BB5DC`, Steel Blue `#004069`, Dark Blue `#021D30`, white). No red or green as deck colors. The only red/green/aqua allowed is the small glow flares that ship with the template's image frames. Leave colors inherited from the layout; set explicit colors only for charts, and only from the palette.
 - **Title slide:** use the hero slide (slide 1, dark Disney "D" art with logo and light-blue title/date) or the montage cover (slide 19, five-image row with curved wedge) when at least five usable images are available. Put the deck title and date in the template's title/date positions. No other title treatment.
-- **Section dividers / transitions:** use the divider slides (21, 22, or 23): full-bleed image, curved wedge, large light-blue title bottom-left, white subtitle beneath it. Use a source image for the background when one fits; otherwise use an approved background (template slides 131-142) rather than leaving a grey placeholder, and never reuse the template's sample key art. Insert a divider before each major section of the source deck.
+- **Section dividers / transitions:** use the divider slides (21, 22, or 23): full-bleed image, curved wedge, large light-blue title bottom-left, white subtitle beneath it. Use a source image for the background when one fits; otherwise use an approved background (template slides 131-142) rather than leaving a grey placeholder, and never reuse the template's sample key art. When inserting images into these dividers, ensure that the image subject isn't being blocked by the wave, while covering the entire gray placeholder area with the image (strict requirement). If blockage is unavoidable, notify the user in the recap. Insert a divider before each major section of the source deck. The wedge is a stub (see "Stub handling"), and the wedge is what normally gives the title its contrast, so check the title against the photo: use 22 (light-blue title) when the bottom-left of the photo is dark and 23 (dark title) when it is light, and flag any divider where the title still crosses busy artwork.
 - **Images (hard rule, no exceptions):** every image from the source deck must sit in a template picture frame that has the template's rounded corners, glowing border, and Lens_* flare. A bare rectangular picture, a picture with a plain square edge, or a picture on an opaque padded canvas that hides the frame is a defect.
-  - **Choose only frames that have the treatment.** Before using any template slide for images, verify its picture frame actually has the rounded, glowing look: open the cloned frame's shape XML (and its layout placeholder) and confirm the rounded geometry and the glow/shadow effect are present, then render the slide and look at it. Layouts differ: for example, the 48/49, 37-40, 55-60 and 69 frames carry the glow, while some tall-frame layouts (53/54) have a plain rectangular frame with no glow. Do not use a frame that lacks the treatment, even if its size fits the image well. Pick a different slide.
-  - **Keep the flares.** The Lens_* pictures stay with their frame at the same relative position. If they are grey stubs (slim template), do not silently drop them: flag the slide for human restoration.
+  - **Choose only frames that have the treatment.** Before using any template slide for images, verify its picture frame actually has the rounded, glowing look: open the cloned frame's shape XML (and its layout placeholder) and confirm the rounded geometry and the glow/shadow effect are present, then render the slide and look at it. Layouts differ: for example, the 48/49, 37-39, 46, 55-60, 63 and 69 frames carry the glow (40 showed no glow effect in the template's XML, so verify it before use), while some tall-frame layouts (53/54) have a plain rectangular frame with no glow. Do not use a frame that lacks the treatment, even if its size fits the image well. Pick a different slide.
+  - **Keep the flares.** The Lens_* pictures stay with their frame at the same relative position. If they are grey stubs, neutralize them as described in "Stub handling" and list them in the restore table. Delete a flare only together with its frame.
   - **Fit by cropping, not padding.** Center-crop to the frame's aspect, keeping faces and key content. Do not letterbox with a padded or recolored canvas to avoid cropping. If cropping would cut important content (charts, text in screenshots), choose a template slide whose frame matches the image's aspect ratio, or flag the slide for human review. Never shrink an image into a small island inside its frame.
-  - **Several images:** use the multi-frame slides (48/49, 37-40, 69) when there are two or more images, one image per frame. Do not merge several source images into one composite to fit a single frame; pick a slide with enough frames or split across slides. Delete any frame that has no image, along with its flare picture, or pick a slide with fewer frames. Never leave grey placeholder boxes.
+  - **Several images (keep the text with them):** use a slide that has both a text area and picture frames; 48/49 are the default (text left, frames right). One image per frame; never merge several source images into one composite. Count the source images first. If the slide has more frames than images, delete the unused frames and their flares. If it has fewer, duplicate one of that slide's own frames (copy the frame shape so it keeps the rounded geometry, glow and line; when the frame is a placeholder, copy the layout placeholder's `ln` and `effectLst` onto the copy and drop the `ph` tag), give the copy its own flare, and arrange the frames as a grid beside the text (for example 2x2 for four images; recipe in `references/template-map.md`). Do not switch to a frame-only slide (37-40, 69, 75-78) and drop the text, and do not put the images and the text on separate slides. Use the caption slots of 69 or 75-78 only when the source itself pairs each caption with one image. If more than six frames would be needed beside the text, flag the slide for human design judgment instead of splitting it. Never leave grey placeholder boxes.
 - **Data and charts:** present statistics, percentages, and chart data like template slides 61/62: a rounded glass card with a heading, short body text, a large light-blue `XX%` figure, and a native editable chart (donut or bar) styled from the palette. Use the big-number slides (46/47, 53-60, 63) for stat-led slides, and 126/127 for bar charts. Charts are rebuilt as native charts with the source's exact categories and values; never a screenshot. If the source chart is only an image with no underlying data, place it in a glowing frame and flag it for manual rebuild. Group related figures on one data card instead of spreading them as loose bullets.
 - **Text-heavy slides:** use the text-only bullet slides, not a blank slide with a body box, and keep the source's bullet hierarchy. Move key figures from bullets onto a data slide only when the figure and its context stay intact. For every slide with text, ensure that the correct font size is used so that text is legible and readable, as well as ensuring the text box is sized properly to avoid clashing with the background (making it illegible).
-4. Fit content without clipping, overlap, or unreadably small text. When necessary, split content across additional slides or recommend a manual redesign rather than deleting information.
+4. Fit content without clipping, overlap, or unreadably small text. When necessary, choose a roomier template slide or recommend a manual redesign rather than deleting information. Do not split a slide whose text and visuals belong together (see "Keep each source slide whole").
 5. Preserve charts and tables as editable elements when practical, including their data and labels. Do not change values or chart interpretation.
 6. Use only approved or user-supplied images and assets when available. Do not add unapproved Disney artwork, logos, or other branded material.
 7. Keep slide dimensions consistent with the approved template unless the user explicitly requests otherwise.
@@ -74,9 +99,11 @@ Create a new editable `.pptx` file; never overwrite the approved template or ori
 
 ### 6. Quality control
 Inspect the generated deck slide by slide, preferably by rendering slides for visual review. Verify:
-- **Content fidelity:** No unintended omissions, fabricated content, altered figures, or meaning changes.
+- **Content fidelity:** No unintended omissions, fabricated content, altered figures, or meaning changes. Run a word-level comparison of all source text against all output text; every source word must appear, and any extra words (labels, repeated titles) must be intentional.
+- **Slide integrity (required):** build a table mapping every source slide to its output slide(s) and to the template slide it was cloned from. Each source slide maps to exactly one output slide (dividers excepted). If a source slide's text and visuals ended up on different output slides, that is a defect: rebuild the slide before delivery.
+- **Stub check (required):** no grey stub is visible anywhere (compare each picture's SHA-1 to `placeholder_gray.png`), every neutralized stub carries the restore alt text, and each one is in the restore table.
 - **Template alignment:** Correct use of available layouts, fonts, colors, dimensions, and visual conventions. Specifically check that: every slide was cloned from the Disney Advertising section; no ESPN/Hulu layouts or red/green deck colors appear unless asked for; the title slide is the hero or montage cover; dividers use the wedge divider slides; data uses the card-with-chart treatment; and slide 1 of the output does not carry template guide text such as "Template v25.01".
-- **Image frames (required check, per image):** go through every image in the output and confirm it has the rounded corners and glowing border, sits in a template picture placeholder, is cropped rather than padded or squeezed, and keeps its Lens_* flare. Any image with a plain square edge or no glow fails QC: switch to a template slide with a glowing frame and rebuild the slide. Do not deliver a deck with a failing image and simply note it, unless the original template assets needed to fix it are unavailable, in which case flag the slide explicitly.
+- **Image frames (required check, per image):** go through every image in the output and confirm it has the rounded corners and glowing border, sits in a template picture placeholder, is cropped rather than padded or squeezed, and keeps its Lens_* flare. Any image with a plain square edge or no glow fails QC: switch to a template slide with a glowing frame and rebuild the slide. Do not deliver a deck with a failing image and simply note it, unless the template assets needed to fix it are unavailable, in which case flag the slide explicitly.
 - **Readability:** Clear hierarchy, legible text (make sure the text isnt too small or too large), and appropriate density.
 - **Layout integrity:** No overflow, clipping, overlaps, off-slide elements, or misaligned objects.
 - **Data integrity:** Charts, tables, labels, units, and citations remain accurate.
@@ -86,13 +113,14 @@ Inspect the generated deck slide by slide, preferably by rendering slides for vi
 Correct issues within tool capabilities. Clearly identify remaining problems and slides requiring manual adjustment.
 
 ### 7. Deliver for human review
-Provide:
+Keep the handoff as short as possible while still complete. Busy readers skim it, so lead with what they must act on, use terse bullets and tables instead of prose, and cut anything that does not change what the reviewer does next. No recap of the workflow or praise of the result. Provide, in this order:
 1. The transformed `.pptx` file.
-2. A concise summary of what changed.
-3. A list of slides requiring manual review, with specific reasons.
-4. Any unresolved ambiguities, missing assets, or limitations.
+2. **Status line:** one sentence, stating that the result is **Disney-aligned for human review**, not officially approved by Disney, and needs a visual check (backgrounds may be reduced quality). Do not claim exact template replication or final brand compliance without explicit human confirmation.
+3. **Needs your attention:** one bullet per slide requiring manual review or rebuild, as `Slide N: reason` (a few words each). Include unresolved ambiguities, text found inside images, and chart images flagged for manual rebuild. Write "None" if there are none.
+4. **Restore table** (only if stubs were neutralized): output slide, source template slide, invisible picture names (Selection Pane). State the one-step fix once above the table, not per row: Change Picture with the same-named picture from that template slide in the original template.
+5. **Slide map:** a compact table of source slide, output slide, template slide cloned. One line of changes summary at most, and only if something was not obvious from the map (for example merged, split or reordered slides).
 
-State that the result is **Disney-aligned for human review**, not officially approved by Disney. Do not claim exact template replication or final brand compliance without explicit human confirmation.
+Aim for a handoff a reader can finish in under a minute, excluding the tables.
 
 ## Guardrails
 - The approved PowerPoint template is the primary visual authority.
@@ -101,10 +129,12 @@ State that the result is **Disney-aligned for human review**, not officially app
 - A passable approximation is not enough: follow the template's slides strictly, and when a slide would need to deviate from the template, flag it for review instead.
 - Preserve content meaning and organizational intent.
 - Do not silently remove content to make a slide fit.
+- Never separate content that shares a source slide: text stays with its images, charts and tables.
+- Never leave a grey stub visible and never delete one silently; neutralize it and list it for restoration.
 - Do not fabricate sources or data.
 - Do not modify the original input or template files.
 - Flag cases that require human design judgment or manual intervention.
 - Keep confidential client materials within the authorized working environment; do not upload them to external services without authorization.
 
 ## Success criteria
-A successful run converts a minimally formatted source presentation into a coherent, editable PowerPoint that closely follows the supplied approved template, retains the source's meaning and content hierarchy, shows every image in a rounded, glowing template frame, and includes a clear handoff for human quality control and final adjustments.
+A successful run converts a minimally formatted source presentation into a coherent, editable PowerPoint that closely follows the supplied approved template, retains the source's meaning and content hierarchy, shows every image in a rounded, glowing template frame, keeps text and visuals that shared a source slide together on one slide, makes any missing template art invisible and restorable in one step, and includes a clear handoff for human quality control and final adjustments.
