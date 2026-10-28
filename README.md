@@ -1,12 +1,13 @@
 # disney-ai
 
-## NEW Workflow
-1. The skill tries to fetch the full original template at /originals (~560 MB, stored with Git LFS) for full-quality images.
-2. It checks the file is real (over 1 KB, not an LFS pointer, opens in python-pptx, 144 slides).
-3. If the fetch or check fails, it falls back to the slim template (inside /assets) and tells the user backgrounds are reduced quality.
-4. It transforms the user's deck on the chosen template. Every output needs human review.
+## Workflow
+1. The skill first checks the user's deck meets the minimum input standard (.pptx or PDF, editable text, attached and not password protected).
+2. Choose between the default style, Hulu, or ESPN and the agent builds your deck from the slim template (inside /assets).
+3. The agent returns a detailed description of the changes made and any issues it detects that are left for human review.
 
-## Setup for Git LFS
+The full original template is kept in /originals (~560 MB, stored with Git LFS) for restoring images by hand.
+
+## Git LFS (for large template)
 ```
 git lfs install
 git lfs pull    # if originals/ holds a pointer file
