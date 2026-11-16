@@ -123,7 +123,21 @@ A frame passes only if it has rounded geometry and a glow (`outerShdw`) on the s
 
 Stubs are 1600x900 single-colour images (`placeholder_gray.png`); detect them by image SHA-1. Stub shapes seen so far: `New Wedge.png` (21, 22), `New Wedge White.png` (23), `Lens_Aqua.png`, `Lens_Red.png` and `Lens_Green.png` (48, 49, 69), the `Image` horizon and the four card photos named `178151_*.jpg` on 69. Neutralize them as described in SKILL.md "Stub handling".
 
-When a frame on 48/49 is moved or resized, move its flare with it using the template's offsets:
+### Glow and flare reference sizes (for scaling)
+
+Glows are fixed blur sizes, so they must be scaled when a frame changes size (rule in SKILL.md, "Scale the glow with the frame").
+
+| Template slide | Frame | Frame size (in) | Shorter side (in) | Glow (`outerShdw`) |
+|---|---|---|---|---|
+| 48/49 | top-left square, idx 24 | 5.74 x 5.74 | 5.74 | blurRad 28 pt, dist 0, accent3 green `#54A66E` |
+| 48/49 | bottom-left square, idx 23 | 5.74 x 5.74 | 5.74 | blurRad 28 pt, dist 0, accent4 red `#841C16` |
+| 48/49 | tall right, idx 22 | 5.74 x 11.9 | 5.74 | blurRad 28 pt, dist 0, accent1 `#004069` |
+| 37-39, 55-60, 63 | picture frames | read from the slide | | blurRad 28 pt, dist 0, accent1 |
+| 69 | four photo cards | read from the slide | | blurRad 60 pt, dist 0, accent2, alpha 53% |
+
+On 48/49 the glow is defined on the layout placeholder, not the slide, so a copied or resized frame must carry its own scaled `effectLst`.
+
+When a frame on 48/49 is moved or resized, move its flare with it using the template's offsets (sizes and offsets below are for the template frame; multiply both by k when the frame is resized):
 
 | Flare | Size (in) | Template position | Offset from its frame |
 |---|---|---|---|
@@ -133,6 +147,6 @@ When a frame on 48/49 is moved or resized, move its flare with it using the temp
 
 ## Glowing image frames
 
-Every image in the output sits inside a template picture placeholder, which supplies the rounded corners and glowing border. The colored flares (`Lens_Green.png`, `Lens_Red.png`, `Lens_Aqua.png`) are separate pictures on the template slide positioned at the frame edges. They must be kept, and kept at the same position relative to their frame. An image dropped onto a slide as a plain rectangular picture is a defect.
+The template picture placeholders supply the rounded corners and glowing border. The colored flares (`Lens_Green.png`, `Lens_Red.png`, `Lens_Aqua.png`) are separate pictures on the template slide positioned at the frame edges, not linked to the frame. Which images get a frame (and which are placed without one, such as clear-background images and charts) is decided in SKILL.md under "Images".
 
 When filling a picture placeholder, crop the source image to the placeholder's aspect ratio (center crop, keep faces and subjects) instead of stretching it.
