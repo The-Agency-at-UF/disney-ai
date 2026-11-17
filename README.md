@@ -1,11 +1,11 @@
 # disney-ai
 
 ## Workflow
-1. The skill first checks the user's deck meets the minimum input standard (.pptx or PDF, editable text, attached and not password protected).
-2. Choose between the default style, Hulu, or ESPN and the agent builds your deck from the slim template (inside /assets).
-3. The agent returns a detailed description of the changes made and any issues it detects that are left for human review.
+1. The skill first checks that the user's deck meets the minimum input standard (.pptx or PDF, editable text preferred, attached and not password protected).
+2. The agent builds the deck from the slim template (in my-skill/assets) in Disney Advertising blue, one tone throughout, choosing layouts to fit each slide's content. ESPN or Hulu styling is used only if asked for.
+3. The agent returns a short handoff, slides needing human review, a restore table for any placeholder art, and a source-to-output slide map.
 
-The full original template is kept in /originals (~560 MB, stored with Git LFS) for restoring images by hand.
+The full original template is kept in /originals (~560 MB, stored with Git LFS) within this repository, but is otherwise unused by the actual skill in favor of a slim bundled version.
 
 ## Git LFS (for large template)
 ```
