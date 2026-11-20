@@ -31,6 +31,24 @@ The client works for **Disney Advertising**, so the output is Disney Advertising
 
 Fonts and sizes come from the layouts. Do not override them. Titles are 60 pt+ on covers, subtitles 30 pt.
 
+## Chart colors (from the template's own example charts)
+
+The donut and bar charts in the template (slides 61/62 and 125-127) color their series and slices in this order:
+
+| Order | Color | Hex |
+|---|---|---|
+| 1 | Light blue | `#50B0DA` |
+| 2 | Navy | `#183F66` |
+| 3 | Dark grey | `#535353` |
+| 4 | Grey | `#A7A7A7` |
+| 5 | Light grey | `#DDDDDD` |
+
+The template's donuts also use accent4 (dark red `#841C16`) as a third slice. It is skipped here because red is not a Disney Advertising deck color. A single-series chart uses color 1. Highlight one bar or slice with color 1 and set the rest in greys, as the template's highlighted bar chart does.
+
+## Standard corner radius
+
+Every opaque source image in the output (not the template's flares or other artwork) gets rounded corners with radius **R = 0.425 in (388620 EMU)**. This is the corner of the template's own 5.74 in square frames on slide 48 (the sample pictures' custom outline rounds about 7.4% of each side). The rule and the formula are in SKILL.md ("Standard corner radius"). Change R here to change it everywhere.
+
 ## Deck tone (one tone per deck)
 
 Most layouts ship twice: a **dark** version (navy/blue background, white text) and a **light** twin (white background, dark text) with the same placeholders. Twins are the same layout in a different color. The rules for choosing between them are in SKILL.md ("One tone per deck").
@@ -106,11 +124,11 @@ Content that shares a source slide stays on one output slide. Pick by the number
 | Text + more than 6 images | none | Flag for human design judgment; do not split |
 | Images only | 37-40, 69, 75-78 | Only when the source slide has no text |
 
-**2x2 recipe (slide 48, 26.67 x 15 in).** The frame region is x 13.3 to 25.3 in, y 1.6 to 13.4 in. Use row tops 1.6 and 7.7 in and a frame height of 5.7 in (the template's square frames use exactly these rows). Set each frame's width to 5.7 x the image's aspect ratio so screenshots are not cropped. Use column centres 17.0 and 21.5 in. Frames: top-left = placeholder idx 24, top-right = idx 22, bottom-left = idx 23, bottom-right = a duplicate of idx 22 (copy the shape, drop its `ph` tag, and copy the layout placeholder's `ln` and `effectLst` onto it). Put the source images in reading order (top-left, top-right, bottom-left, bottom-right).
+**2x2 recipe (slide 48, 26.67 x 15 in).** The frame region is x 13.3 to 25.3 in, y 1.6 to 13.4 in. Use row tops 1.6 and 7.7 in and a frame height of 5.7 in (the template's square frames use exactly these rows). Set each frame's width to 5.7 x the image's aspect ratio so screenshots are not cropped. Use column centres 17.0 and 21.5 in. Frames: top-left = placeholder idx 24, top-right = idx 22, bottom-left = idx 23, bottom-right = a duplicate of idx 22 (copy the slide's picture, drop its `ph` tag, copy the layout placeholder's `ln` and `effectLst` onto it, and apply the standard corner radius). Put the source images in reading order (top-left, top-right, bottom-left, bottom-right).
 
 ## Frame glow check (slim copy, checked in the XML)
 
-A frame passes only if it has rounded geometry and a glow (`outerShdw`) on the shape or its layout placeholder; always confirm by rendering.
+A frame passes only if it has a glow (`outerShdw`) on the shape or its layout placeholder; always confirm by rendering. Rounding is not checked here: on every framed slide (37-40, 46-49, 53-60, 63, 69, 73, 75, 77) the sample picture carries a custom rounded outline (`custGeom`) while the layout placeholder is a plain `rect`, so corners are applied by the standard radius instead.
 
 | Result | Slides |
 |---|---|
